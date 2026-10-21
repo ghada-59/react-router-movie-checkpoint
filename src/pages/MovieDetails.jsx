@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import useDocumentTitle from '../hooks/useDocumentTitle.js';
 
 function getEmbedURL(url = '') {
@@ -20,6 +20,11 @@ function getEmbedURL(url = '') {
 
 export default function MovieDetails({ movies }) {
   const { movieId } = useParams();
+  const navigate = useNavigate();
+
+  function handleBackHome() {
+    navigate('/');
+  }
   const movie = movies.find((item) => String(item.id) === movieId);
   useDocumentTitle(movie ? movie.title : 'Movie not found');
 
@@ -39,7 +44,7 @@ export default function MovieDetails({ movies }) {
   return (
     <main className="details-page">
       <div className="details-topbar section-shell">
-        <Link className="back-link" to="/"><span aria-hidden="true">←</span> Back to home</Link>
+        <button className="back-link back-link-button" type="button" onClick={handleBackHome}><span aria-hidden="true">←</span> Back to home</button>
         <span className="details-index">FRAME / FILM {String(movie.id).padStart(3, '0')}</span>
       </div>
 
